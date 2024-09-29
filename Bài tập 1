@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+// Ham tinh uoc chung lon nhat (gcd) cua hai so
+// Dau vao: a, b la hai so nguyen
+// Dau ra: Tra ve gia tri gcd cua a va b
+int ucln(int a, int b) {
+    if (b == 0)
+        return a;
+    return ucln(b, a % b);
+}
+
+// Cau truc de luu tru phan so
+struct phanso {
+    int tu;   // tu so
+    int mau;  // mau so
+};
+
+// Ham nhap phan so
+// Dau vao: Tham chieu den cau truc phanso
+// Dau ra: Nhap tu nguoi dung va gan gia tri cho tu va mau
+void nhap_phanso(phanso &ps) {
+    cout << "Nhap tu so: ";
+    cin >> ps.tu;
+    cout << "Nhap mau so: ";
+    cin >> ps.mau;
+
+    // Kiem tra neu mau so la 0, yeu cau nhap lai
+    while (ps.mau == 0) {
+        cout << "Mau so khong the bang 0, vui long nhap lai: ";
+        cin >> ps.mau;
+    }
+}
+
+// Ham rut gon phan so
+// Dau vao: Tham chieu den cau truc phanso
+// Dau ra: Thay doi gia tri tu va mau de tro thanh phan so toi gian
+void rutgon_phanso(phanso &ps) {
+    int uocchung = ucln(ps.tu, ps.mau); // Tim ucln cua tu so va mau so
+    ps.tu /= uocchung;    // Chia ca tu so va mau so cho ucln
+    ps.mau /= uocchung;   // de phan so tro thanh phan so toi gian
+
+    // Dam bao mau so luon duong
+    if (ps.mau < 0) {
+        ps.tu = -ps.tu;
+        ps.mau = -ps.mau;
+    }
+}
+
+// Ham xuat phan so
+// Dau vao: Cau truc phanso
+// Dau ra: Hien thi phan so duoi dang tu so / mau so
+void xuat_phanso(const phanso &ps) {
+    if (ps.mau == 1) {
+        cout << "Phan so sau khi rut gon la: " << ps.tu << endl;
+    } else {
+        cout << "Phan so sau khi rut gon la: " << ps.tu << "/" << ps.mau << endl;
+    }
+}
+
+// Ham chinh
+int main() {
+    phanso ps;
+
+    // Nhap phan so tu nguoi dung
+    nhap_phanso(ps);
+
+    // Rut gon phan so
+    rutgon_phanso(ps);
+
+    // Xuat phan so sau khi rut gon
+    xuat_phanso(ps);
+
+    return 0;
+}
