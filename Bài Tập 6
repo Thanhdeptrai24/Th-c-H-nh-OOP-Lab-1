@@ -1,82 +1,76 @@
 #include <iostream>
 #include <vector>
+#include <utility> // De su dung std::pair
+#include <algorithm> // De su dung std::equal
 
-using namespace std;
+// Ham dem so lan xuat hien cua mang A trong mang B
+// @param A: Mang con can tim
+// @param B: Mang cha de tim kiem
+// @return: Tra ve so lan xuat hien va mot vector chua cac chi so bat dau
+std::pair<int, std::vector<int>> count_occurrences(const std::vector<int>& A, const std::vector<int>& B) {
+    int count = 0; // Bien dem so lan xuat hien
+    std::vector<int> positions; // Vector luu cac chi so bat dau
+    int len_A = A.size(); // Kich thuoc cua mang A
+    int len_B = B.size(); // Kich thuoc cua mang B
 
-/**
- * Hàm kiểm tra xem một mảng con (A) có xuất hiện trong một mảng lớn (B) tại vị trí bắt đầu cho trước hay không.
- * 
- * @param A Mảng con cần tìm.
- * @param B Mảng lớn mà chúng ta kiểm tra.
- * @param start Vị trí bắt đầu trong mảng B để kiểm tra.
- * @return true nếu A xuất hiện tại vị trí start trong B, false nếu không.
- */
-bool isSubarray(const vector<int>& A, const vector<int>& B, int start) {
-    for (int i = 0; i < A.size(); i++) {
-        if (B[start + i] != A[i]) {
-            return false;
-        }
+    // Neu mang A rong, tra ve 0 lan xuat hien tai chi so 0
+    if (len_A == 0) {
+        return {0, positions};
     }
-    return true;
-}
 
-/**
- * Hàm tìm số lần xuất hiện của mảng A trong mảng B.
- * 
- * @param A Mảng con cần tìm.
- * @param B Mảng lớn mà chúng ta kiểm tra.
- * @return Số lần xuất hiện của A trong B.
- */
-int countOccurrences(const vector<int>& A, const vector<int>& B) {
-    int count = 0;
-    vector<int> positions;
+    // Neu mang B rong hoac A lon hon B, khong the tim thay A trong B
+    if (len_B == 0 || len_A > len_B) {
+        return {0, positions};
+    }
 
-    for (int i = 0; i <= B.size() - A.size(); i++) {
-        if (isSubarray(A, B, i)) {
-            count++;
-            positions.push_back(i); // Lưu vị trí bắt đầu xuất hiện
+    // Lap qua tung chi so trong mang B
+    for (int i = 0; i <= len_B - len_A; ++i) {
+        // Kiem tra xem mang A co xuat hien tai chi so i khong
+        if (std::equal(B.begin() + i, B.begin() + i + len_A, A.begin())) {
+            count++; // Tang bien dem
+            positions.push_back(i); // Luu chi so bat dau
         }
     }
 
-    // Xuất vị trí xuất hiện
-    cout << "Các chỉ số bắt đầu xuất hiện của A trong B: ";
-    for (int pos : positions) {
-        cout << pos << " ";
-    }
-    cout << endl;
-
-    return count;
+    return {count, positions}; // Tra ve ket qua
 }
 
-
-
+// Ham chinh de chay chuong trinh
 int main() {
-    // Khai báo mảng A và B
-    vector<int> A;
-    vector<int> B;
-    int sizeA, sizeB;
+    int n, m;
 
-    // Nhập kích thước và các phần tử của mảng A
-    cout << "Nhap so phan tu cua mang A: ";
-    cin >> sizeA;
-    A.resize(sizeA);
-    cout << "Nhap cac phan tu cua mang A: ";
-    for (int i = 0; i < sizeA; i++) {
-        cin >> A[i];
+    // Nhap kich thuoc mang A
+    std::cout << "Nhap so luong phan tu cua mang A: ";
+    std::cin >> n;
+    std::vector<int> A(n); // Khoi tao mang A voi kich thuoc n
+
+    // Nhap cac phan tu cua mang A
+    std::cout << "Nhap cac phan tu cua mang A: ";
+    for (int i = 0; i < n; ++i) {
+        std::cin >> A[i];
     }
 
-    // Nhập kích thước và các phần tử của mảng B
-    cout << "Nhap so phan tu cua mang B: ";
-    cin >> sizeB;
-    B.resize(sizeB);
-    cout << "Nhap cac phan tu cua mang B: ";
-    for (int i = 0; i < sizeB; i++) {
-        cin >> B[i];
+    // Nhap kich thuoc mang B
+    std::cout << "Nhap so luong phan tu cua mang B: ";
+    std::cin >> m;
+    std::vector<int> B(m); // Khoi tao mang B voi kich thuoc m
+
+    // Nhap cac phan tu cua mang B
+    std::cout << "Nhap cac phan tu cua mang B: ";
+    for (int i = 0; i < m; ++i) {
+        std::cin >> B[i];
     }
 
-    // Tính số lần xuất hiện và xuất kết quả
-    int occurrences = countOccurrences(A, B);
-    cout << "So lan mang A xuat hien trong mang B: " << occurrences << endl;
+    // Goi ham dem so lan xuat hien va luu ket qua
+    auto result = count_occurrences(A, B);
+    
+    // Hien thi ket qua
+    std::cout << "So lan xuat hien cua A trong B: " << result.first << std::endl;
+    std::cout << "Cac chi so bat dau: ";
+    for (int pos : result.second) {
+        std::cout << pos << " ";
+    }
+    std::cout << std::endl;
 
-    return 0;
+    return 0; // Ket thuc chuong trinh
 }
