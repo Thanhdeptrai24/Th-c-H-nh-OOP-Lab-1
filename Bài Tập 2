@@ -1,64 +1,64 @@
 #include <iostream>
 using namespace std;
 
-// Cấu trúc lưu trữ phân số (Phân số có tử số và mẫu số)
+// Cau truc luu tru phan so (Phan so co tu so va mau so)
 struct PhanSo {
-    int tu;   // tử số
-    int mau;  // mẫu số
+    int tu;   // tu so
+    int mau;  // mau so
 };
 
-// Hàm tính ước chung lớn nhất (GCD - Greatest Common Divisor)
-// Đầu vào: a và b là hai số nguyên
-// Đầu ra: Giá trị GCD của a và b
+// Ham tinh uoc chung lon nhat (GCD - Greatest Common Divisor)
+// Dau vao: a va b la hai so nguyen
+// Dau ra: Gia tri GCD cua a va b
 int ucln(int a, int b) {
     if (b == 0)
         return a;
-    return ucln(b, a % b);  // Gọi đệ quy cho đến khi tìm được UCLN
+    return ucln(b, a % b);  // Goi de quy cho den khi tim duoc UCLN
 }
 
-// Hàm rút gọn phân số
-// Đầu vào: ps (PhanSo) là một phân số
-// Đầu ra: Phân số được rút gọn về dạng tối giản
+// Ham rut gon phan so
+// Dau vao: ps (PhanSo) la mot phan so
+// Dau ra: Phan so duoc rut gon ve dang toi gian
 void rutGonPhanSo(PhanSo &ps) {
-    int uoc = ucln(ps.tu, ps.mau);  // Tính UCLN của tử số và mẫu số
-    ps.tu /= uoc;  // Chia tử số cho UCLN để rút gọn
-    ps.mau /= uoc; // Chia mẫu số cho UCLN để rút gọn
+    int uoc = ucln(ps.tu, ps.mau);  // Tinh UCLN cua tu so va mau so
+    ps.tu /= uoc;  // Chia tu so cho UCLN de rut gon
+    ps.mau /= uoc; // Chia mau so cho UCLN de rut gon
 
-    // Đảm bảo mẫu số luôn dương
+    // Dam bao mau so luon duong
     if (ps.mau < 0) {
         ps.tu = -ps.tu;
         ps.mau = -ps.mau;
     }
 }
 
-// Hàm nhập phân số từ người dùng
-// Đầu vào: ps (PhanSo) là phân số cần nhập
-// Đầu ra: Gán giá trị tử số và mẫu số cho phân số ps
+// Ham nhap phan so tu nguoi dung
+// Dau vao: ps (PhanSo) la phan so can nhap
+// Dau ra: Gan gia tri tu so va mau so cho phan so ps
 void nhapPhanSo(PhanSo &ps) {
-    cout << "Nhập tử số: ";
+    cout << "Nhap tu so: ";
     cin >> ps.tu;
-    cout << "Nhập mẫu số (khác 0): ";
+    cout << "Nhap mau so (khac 0): ";
     cin >> ps.mau;
 
-    // Kiểm tra mẫu số không được bằng 0
+    // Kiem tra mau so khong duoc bang 0
     while (ps.mau == 0) {
-        cout << "Mẫu số không thể bằng 0, vui lòng nhập lại: ";
+        cout << "Mau so khong the bang 0, vui long nhap lai: ";
         cin >> ps.mau;
     }
-    rutGonPhanSo(ps);  // Tự động rút gọn sau khi nhập
+    rutGonPhanSo(ps);  // Tu dong rut gon sau khi nhap
 }
 
-// Hàm so sánh hai phân số
-// Đầu vào: ps1 và ps2 là hai phân số cần so sánh
-// Đầu ra: Trả về true nếu ps1 lớn hơn ps2, ngược lại trả về false
+// Ham so sanh hai phan so
+// Dau vao: ps1 va ps2 la hai phan so can so sanh
+// Dau ra: Tra ve true neu ps1 lon hon ps2, nguoc lai tra ve false
 bool soSanhPhanSo(const PhanSo &ps1, const PhanSo &ps2) {
-    // So sánh bằng cách nhân chéo (tử số của phân số này nhân mẫu số của phân số kia)
+    // So sanh bang cach nhan cheo (tu so cua phan so nay nhan mau so cua phan so kia)
     return ps1.tu * ps2.mau > ps2.tu * ps1.mau;
 }
 
-// Hàm xuất phân số
-// Đầu vào: ps là phân số cần xuất
-// Đầu ra: In phân số ra màn hình
+// Ham xuat phan so
+// Dau vao: ps la phan so can xuat
+// Dau ra: In phan so ra man hinh
 void xuatPhanSo(const PhanSo &ps) {
     if (ps.mau == 1) {
         cout << ps.tu << endl;
@@ -67,23 +67,23 @@ void xuatPhanSo(const PhanSo &ps) {
     }
 }
 
-// Hàm chính
+// Ham chinh
 int main() {
     PhanSo ps1, ps2;
 
-    // Nhập hai phân số
-    cout << "Nhập phân số thứ nhất: " << endl;
+    // Nhap hai phan so
+    cout << "Nhap phan so thu nhat: " << endl;
     nhapPhanSo(ps1);
 
-    cout << "Nhập phân số thứ hai: " << endl;
+    cout << "Nhap phan so thu hai: " << endl;
     nhapPhanSo(ps2);
 
-    // So sánh và tìm phân số lớn hơn
+    // So sanh va tim phan so lon hon
     if (soSanhPhanSo(ps1, ps2)) {
-        cout << "Phân số lớn nhất là: ";
+        cout << "Phan so lon nhat la: ";
         xuatPhanSo(ps1);
     } else {
-        cout << "Phân số lớn nhất là: ";
+        cout << "Phan so lon nhat la: ";
         xuatPhanSo(ps2);
     }
 
