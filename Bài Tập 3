@@ -1,88 +1,128 @@
 #include <iostream>
-
 using namespace std;
 
-// Cau truc phan so
+// Cau truc de luu tru phan so
 struct PhanSo {
-    int tu;  // Tu so
-    int mau; // Mau so
+    int tu;   // tu so
+    int mau;  // mau so
 };
 
+// Ham tinh uoc chung lon nhat (gcd) cua hai so
+// Dau vao: a, b la hai so nguyen
+// Dau ra: Tra ve gia tri gcd cua a va b
+int ucln(int a, int b) {
+    if (b == 0)
+        return a;
+    return ucln(b, a % b);
+}
+
+// Ham rut gon phan so
+// Dau vao: Tham chieu den phan so can rut gon
+// Dau ra: Phan so duoc rut gon
+void rutgon_phanso(PhanSo &ps) {
+    int uocchung = ucln(ps.tu, ps.mau); // Tim uoc chung lon nhat
+    ps.tu /= uocchung;
+    ps.mau /= uocchung;
+
+    // Dam bao mau so luon duong
+    if (ps.mau < 0) {
+        ps.tu = -ps.tu;
+        ps.mau = -ps.mau;
+    }
+}
+
 // Ham nhap phan so
-// Tham so dau vao: ps - phan so can nhap
-void nhapPhanSo(PhanSo &ps) {
+// Dau vao: Tham chieu den phan so can nhap
+void nhap_phanso(PhanSo &ps) {
     cout << "Nhap tu so: ";
     cin >> ps.tu;
     cout << "Nhap mau so: ";
     cin >> ps.mau;
+
+    // Kiem tra neu mau so bang 0, yeu cau nhap lai
+    while (ps.mau == 0) {
+        cout << "Mau so khong the bang 0, vui long nhap lai: ";
+        cin >> ps.mau;
+    }
 }
 
-// Ham tinh tong cua hai phan so
-// Tham so dau vao: ps1, ps2 - hai phan so can tinh tong
-// Tra ve: phan so ket qua la tong cua ps1 va ps2
-PhanSo tong(PhanSo ps1, PhanSo ps2) {
+// Ham tinh tong hai phan so
+// Dau vao: Hai phan so can tinh tong
+// Dau ra: Phan so ket qua cua phep tinh tong
+PhanSo tinh_tong(PhanSo ps1, PhanSo ps2) {
     PhanSo kq;
-    kq.tu = ps1.tu * ps2.mau + ps2.tu * ps1.mau; // Tinh tu so cua tong
-    kq.mau = ps1.mau * ps2.mau;                   // Tinh mau so cua tong
+    kq.tu = ps1.tu * ps2.mau + ps2.tu * ps1.mau; // Tinh tu so
+    kq.mau = ps1.mau * ps2.mau;                 // Tinh mau so
+    rutgon_phanso(kq);                           // Rut gon phan so
     return kq;
 }
 
-// Ham tinh hieu cua hai phan so
-// Tham so dau vao: ps1, ps2 - hai phan so can tinh hieu
-// Tra ve: phan so ket qua la hieu cua ps1 va ps2
-PhanSo hieu(PhanSo ps1, PhanSo ps2) {
+// Ham tinh hieu hai phan so
+// Dau vao: Hai phan so can tinh hieu
+// Dau ra: Phan so ket qua cua phep tinh hieu
+PhanSo tinh_hieu(PhanSo ps1, PhanSo ps2) {
     PhanSo kq;
-    kq.tu = ps1.tu * ps2.mau - ps2.tu * ps1.mau; // Tinh tu so cua hieu
-    kq.mau = ps1.mau * ps2.mau;                   // Tinh mau so cua hieu
+    kq.tu = ps1.tu * ps2.mau - ps2.tu * ps1.mau; // Tinh tu so
+    kq.mau = ps1.mau * ps2.mau;                 // Tinh mau so
+    rutgon_phanso(kq);                           // Rut gon phan so
     return kq;
 }
 
-// Ham tinh tich cua hai phan so
-// Tham so dau vao: ps1, ps2 - hai phan so can tinh tich
-// Tra ve: phan so ket qua la tich cua ps1 va ps2
-PhanSo tich(PhanSo ps1, PhanSo ps2) {
+// Ham tinh tich hai phan so
+// Dau vao: Hai phan so can tinh tich
+// Dau ra: Phan so ket qua cua phep tinh tich
+PhanSo tinh_tich(PhanSo ps1, PhanSo ps2) {
     PhanSo kq;
-    kq.tu = ps1.tu * ps2.tu;   // Tinh tu so cua tich
-    kq.mau = ps1.mau * ps2.mau; // Tinh mau so cua tich
+    kq.tu = ps1.tu * ps2.tu;                     // Tinh tu so
+    kq.mau = ps1.mau * ps2.mau;                 // Tinh mau so
+    rutgon_phanso(kq);                           // Rut gon phan so
     return kq;
 }
 
-// Ham tinh thuong cua hai phan so
-// Tham so dau vao: ps1, ps2 - hai phan so can tinh thuong
-// Tra ve: phan so ket qua la thuong cua ps1 va ps2
-PhanSo thuong(PhanSo ps1, PhanSo ps2) {
+// Ham tinh thuong hai phan so
+// Dau vao: Hai phan so can tinh thuong
+// Dau ra: Phan so ket qua cua phep tinh thuong
+PhanSo tinh_thuong(PhanSo ps1, PhanSo ps2) {
     PhanSo kq;
-    kq.tu = ps1.tu * ps2.mau;   // Tinh tu so cua thuong
-    kq.mau = ps1.mau * ps2.tu;   // Tinh mau so cua thuong
+    kq.tu = ps1.tu * ps2.mau;                    // Tinh tu so
+    kq.mau = ps1.mau * ps2.tu;                   // Tinh mau so
+    rutgon_phanso(kq);                           // Rut gon phan so
     return kq;
 }
 
 // Ham xuat phan so
-// Tham so dau vao: ps - phan so can xuat
-void xuatPhanSo(PhanSo ps) {
-    cout << ps.tu << "/" << ps.mau << endl; // Xuat tu so va mau so
+// Dau vao: Phan so can xuat
+// Dau ra: Hien thi phan so da rut gon
+void xuat_phanso(const PhanSo &ps) {
+    if (ps.mau == 1) {
+        cout << ps.tu << endl;
+    } else {
+        cout << ps.tu << "/" << ps.mau << endl;
+    }
 }
 
+// Ham chinh
 int main() {
-    PhanSo ps1, ps2; // Khai bao hai phan so
+    PhanSo ps1, ps2;
 
-    cout << "Nhap phan so 1:\n";
-    nhapPhanSo(ps1); // Nhap phan so thu nhat
+    // Nhap hai phan so tu nguoi dung
+    cout << "Nhap phan so thu nhat:\n";
+    nhap_phanso(ps1);
+    cout << "Nhap phan so thu hai:\n";
+    nhap_phanso(ps2);
 
-    cout << "Nhap phan so 2:\n";
-    nhapPhanSo(ps2); // Nhap phan so thu hai
-
+    // Tinh va xuat ket qua
     cout << "Tong: ";
-    xuatPhanSo(tong(ps1, ps2)); // Xuat tong
+    xuat_phanso(tinh_tong(ps1, ps2));
 
     cout << "Hieu: ";
-    xuatPhanSo(hieu(ps1, ps2)); // Xuat hieu
+    xuat_phanso(tinh_hieu(ps1, ps2));
 
     cout << "Tich: ";
-    xuatPhanSo(tich(ps1, ps2)); // Xuat tich
+    xuat_phanso(tinh_tich(ps1, ps2));
 
     cout << "Thuong: ";
-    xuatPhanSo(thuong(ps1, ps2)); // Xuat thuong
+    xuat_phanso(tinh_thuong(ps1, ps2));
 
     return 0;
 }
