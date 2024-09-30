@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cmath>  // Su dung fabs() de lay tri tuyet doi
+
+using namespace std;
+
+// Ham tinh sin(x) su dung chuoi Taylor
+// Dau vao: x - gia tri goc tinh bang radian
+// Dau ra: gia tri sin(x) voi do chinh xac 0.00001
+double sin_taylor(double x) {
+    double term = x;     // Term dau tien la x
+    double sum = x;      // Khoi tao tong bang term dau tien
+    int n = 1;           // Bat dau tinh term tu x^3/3!
+    double numerator = x;  // Khoi tao tu so bang x
+    double denominator = 1.0; // Khoi tao mau so bang 1 (cho 0!)
+
+    // Vong lap tinh cac term cho den khi tri tuyet doi cua term nho hon 0.00001
+    while (fabs(term) >= 0.00001) {
+        numerator *= x * x;          // Cap nhat tu so: x^(2n+1)
+        denominator *= (2 * n) * (2 * n + 1);  // Cap nhat mau so: (2n+1)!
+        term = -term * x * x / ((2 * n) * (2 * n + 1)); // Term tiep theo trong chuoi
+        sum += term;  // Cong term vao tong
+        n++;          // Tang n de tinh term tiep theo
+    }
+    
+    return sum;  // Tra ve gia tri sin(x)
+}
+
+int main() {
+    double x;
+    cout << "Nhap gia tri x (rad): ";  // Yeu cau nguoi dung nhap gia tri goc (x)
+    cin >> x;
+
+    double result = sin_taylor(x);  // Goi ham sin_taylor de tinh sin(x)
+    cout << "Gia tri sin(" << x << ") theo Taylor series la: " << result << endl;
+
+    return 0;
+}
