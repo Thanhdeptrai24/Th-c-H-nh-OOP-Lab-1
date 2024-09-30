@@ -1,0 +1,88 @@
+#include <iostream>
+
+using namespace std;
+
+// Cau truc phan so
+struct PhanSo {
+    int tu;  // Tu so
+    int mau; // Mau so
+};
+
+// Ham nhap phan so
+// Tham so dau vao: ps - phan so can nhap
+void nhapPhanSo(PhanSo &ps) {
+    cout << "Nhap tu so: ";
+    cin >> ps.tu;
+    cout << "Nhap mau so: ";
+    cin >> ps.mau;
+}
+
+// Ham tinh tong cua hai phan so
+// Tham so dau vao: ps1, ps2 - hai phan so can tinh tong
+// Tra ve: phan so ket qua la tong cua ps1 va ps2
+PhanSo tong(PhanSo ps1, PhanSo ps2) {
+    PhanSo kq;
+    kq.tu = ps1.tu * ps2.mau + ps2.tu * ps1.mau; // Tinh tu so cua tong
+    kq.mau = ps1.mau * ps2.mau;                   // Tinh mau so cua tong
+    return kq;
+}
+
+// Ham tinh hieu cua hai phan so
+// Tham so dau vao: ps1, ps2 - hai phan so can tinh hieu
+// Tra ve: phan so ket qua la hieu cua ps1 va ps2
+PhanSo hieu(PhanSo ps1, PhanSo ps2) {
+    PhanSo kq;
+    kq.tu = ps1.tu * ps2.mau - ps2.tu * ps1.mau; // Tinh tu so cua hieu
+    kq.mau = ps1.mau * ps2.mau;                   // Tinh mau so cua hieu
+    return kq;
+}
+
+// Ham tinh tich cua hai phan so
+// Tham so dau vao: ps1, ps2 - hai phan so can tinh tich
+// Tra ve: phan so ket qua la tich cua ps1 va ps2
+PhanSo tich(PhanSo ps1, PhanSo ps2) {
+    PhanSo kq;
+    kq.tu = ps1.tu * ps2.tu;   // Tinh tu so cua tich
+    kq.mau = ps1.mau * ps2.mau; // Tinh mau so cua tich
+    return kq;
+}
+
+// Ham tinh thuong cua hai phan so
+// Tham so dau vao: ps1, ps2 - hai phan so can tinh thuong
+// Tra ve: phan so ket qua la thuong cua ps1 va ps2
+PhanSo thuong(PhanSo ps1, PhanSo ps2) {
+    PhanSo kq;
+    kq.tu = ps1.tu * ps2.mau;   // Tinh tu so cua thuong
+    kq.mau = ps1.mau * ps2.tu;   // Tinh mau so cua thuong
+    return kq;
+}
+
+// Ham xuat phan so
+// Tham so dau vao: ps - phan so can xuat
+void xuatPhanSo(PhanSo ps) {
+    cout << ps.tu << "/" << ps.mau << endl; // Xuat tu so va mau so
+}
+
+int main() {
+    PhanSo ps1, ps2; // Khai bao hai phan so
+
+    cout << "Nhap phan so 1:\n";
+    nhapPhanSo(ps1); // Nhap phan so thu nhat
+
+    cout << "Nhap phan so 2:\n";
+    nhapPhanSo(ps2); // Nhap phan so thu hai
+
+    cout << "Tong: ";
+    xuatPhanSo(tong(ps1, ps2)); // Xuat tong
+
+    cout << "Hieu: ";
+    xuatPhanSo(hieu(ps1, ps2)); // Xuat hieu
+
+    cout << "Tich: ";
+    xuatPhanSo(tich(ps1, ps2)); // Xuat tich
+
+    cout << "Thuong: ";
+    xuatPhanSo(thuong(ps1, ps2)); // Xuat thuong
+
+    return 0;
+}
