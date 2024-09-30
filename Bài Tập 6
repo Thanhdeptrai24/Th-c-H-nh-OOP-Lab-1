@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/**
+ * Hàm kiểm tra xem một mảng con (A) có xuất hiện trong một mảng lớn (B) tại vị trí bắt đầu cho trước hay không.
+ * 
+ * @param A Mảng con cần tìm.
+ * @param B Mảng lớn mà chúng ta kiểm tra.
+ * @param start Vị trí bắt đầu trong mảng B để kiểm tra.
+ * @return true nếu A xuất hiện tại vị trí start trong B, false nếu không.
+ */
+bool isSubarray(const vector<int>& A, const vector<int>& B, int start) {
+    for (int i = 0; i < A.size(); i++) {
+        if (B[start + i] != A[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Hàm tìm số lần xuất hiện của mảng A trong mảng B.
+ * 
+ * @param A Mảng con cần tìm.
+ * @param B Mảng lớn mà chúng ta kiểm tra.
+ * @return Số lần xuất hiện của A trong B.
+ */
+int countOccurrences(const vector<int>& A, const vector<int>& B) {
+    int count = 0;
+    vector<int> positions;
+
+    for (int i = 0; i <= B.size() - A.size(); i++) {
+        if (isSubarray(A, B, i)) {
+            count++;
+            positions.push_back(i); // Lưu vị trí bắt đầu xuất hiện
+        }
+    }
+
+    // Xuất vị trí xuất hiện
+    cout << "Các chỉ số bắt đầu xuất hiện của A trong B: ";
+    for (int pos : positions) {
+        cout << pos << " ";
+    }
+    cout << endl;
+
+    return count;
+}
+
+
+
+int main() {
+    // Khai báo mảng A và B
+    vector<int> A;
+    vector<int> B;
+    int sizeA, sizeB;
+
+    // Nhập kích thước và các phần tử của mảng A
+    cout << "Nhap so phan tu cua mang A: ";
+    cin >> sizeA;
+    A.resize(sizeA);
+    cout << "Nhap cac phan tu cua mang A: ";
+    for (int i = 0; i < sizeA; i++) {
+        cin >> A[i];
+    }
+
+    // Nhập kích thước và các phần tử của mảng B
+    cout << "Nhap so phan tu cua mang B: ";
+    cin >> sizeB;
+    B.resize(sizeB);
+    cout << "Nhap cac phan tu cua mang B: ";
+    for (int i = 0; i < sizeB; i++) {
+        cin >> B[i];
+    }
+
+    // Tính số lần xuất hiện và xuất kết quả
+    int occurrences = countOccurrences(A, B);
+    cout << "So lan mang A xuat hien trong mang B: " << occurrences << endl;
+
+    return 0;
+}
