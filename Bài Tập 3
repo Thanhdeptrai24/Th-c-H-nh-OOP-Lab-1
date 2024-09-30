@@ -83,6 +83,10 @@ PhanSo tinh_tich(PhanSo ps1, PhanSo ps2) {
 // Dau vao: Hai phan so can tinh thuong
 // Dau ra: Phan so ket qua cua phep tinh thuong
 PhanSo tinh_thuong(PhanSo ps1, PhanSo ps2) {
+    if (ps2.tu == 0) {
+        cout << "Khong the thuc hien phep chia do tu so cua phan so thu hai bang " << endl;
+        return {0, 1};  // Tra ve gia tri mac dinh neu chia cho 0
+    }
     PhanSo kq;
     kq.tu = ps1.tu * ps2.mau;                    // Tinh tu so
     kq.mau = ps1.mau * ps2.tu;                   // Tinh mau so
